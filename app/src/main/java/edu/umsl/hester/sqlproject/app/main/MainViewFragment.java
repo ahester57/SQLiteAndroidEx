@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.lang.ref.WeakReference;
 
@@ -18,6 +19,7 @@ import edu.umsl.hester.sqlproject.R;
 
 public class MainViewFragment extends Fragment {
 
+    private Button mShowFriends;
     private WeakReference<MainViewFragmentDelegate> mDelegate;
 
     interface MainViewFragmentDelegate {
@@ -34,6 +36,16 @@ public class MainViewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
 
+        mShowFriends = (Button) view.findViewById(R.id.show_friends_button);
+        mShowFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDelegate != null) {
+                    mDelegate.get().fetchFriendData();
+                    mDelegate.get().showFriends();
+                }
+            }
+        });
         return view;
     }
 }

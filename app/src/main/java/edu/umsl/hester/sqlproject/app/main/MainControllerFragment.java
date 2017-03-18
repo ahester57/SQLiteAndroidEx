@@ -9,6 +9,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +30,7 @@ import edu.umsl.hester.sqlproject.app.friend.FriendModel;
 
 public class MainControllerFragment extends Fragment {
 
-    private static final String ENDPOINT_URL = "http://www.workstation4.com/cars.json";
+    private static final String ENDPOINT_URL = "http://stin.tech/friends.json";
     private FriendModel mFriendModel;
 
     private WeakReference<MainFragmentListener> mListener;
@@ -74,7 +77,16 @@ public class MainControllerFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String s) {
-            super.onPostExecute(s);
+            Log.d("DOWNLOAD", s);
+            try {
+                JSONArray jsonArray = new JSONArray(s);
+                mFriendModel = new FriendModel(jsonArray, getActivity());
+                if (mListener != null) {
+                    mListener.get().friendDataDLComplete();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
