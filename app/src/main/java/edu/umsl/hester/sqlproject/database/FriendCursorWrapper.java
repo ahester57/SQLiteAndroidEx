@@ -7,6 +7,7 @@ import edu.umsl.hester.sqlproject.data.Friend;
 
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class FriendCursorWrapper extends CursorWrapper {

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class FriendHelper extends SQLiteOpenHelper {

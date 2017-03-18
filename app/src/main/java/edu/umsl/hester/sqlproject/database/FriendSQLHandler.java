@@ -12,6 +12,7 @@ import edu.umsl.hester.sqlproject.data.Friend;
 
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class FriendSQLHandler {
@@ -46,6 +47,20 @@ public class FriendSQLHandler {
             }
         }
         return friends;
+    }
+
+    public List<String> getFriendNames() {
+        ArrayList<String> friendNames = new ArrayList<>();
+
+        try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
+                new String[]{FriendSchema.Columns.FIRST_NAME},
+                null, null, FriendSchema.Columns.FIRST_NAME, null, "firstName asc")) {
+            while (cursor.moveToNext()) {
+                friendNames.add(cursor.getString(0));
+            }
+        }
+
+        return friendNames;
     }
 
     public void addFriends(List<Friend> friends) {

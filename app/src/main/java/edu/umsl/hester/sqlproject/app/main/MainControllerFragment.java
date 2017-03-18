@@ -1,4 +1,4 @@
-package edu.umsl.hester.sqlproject.app;
+package edu.umsl.hester.sqlproject.app.main;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -17,13 +17,18 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import edu.umsl.hester.sqlproject.app.ModelHolder;
+import edu.umsl.hester.sqlproject.app.friend.FriendModel;
+
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class MainControllerFragment extends Fragment {
 
     private static final String ENDPOINT_URL = "http://www.workstation4.com/cars.json";
+    private FriendModel mFriendModel;
 
     private WeakReference<MainFragmentListener> mListener;
 
@@ -33,6 +38,10 @@ public class MainControllerFragment extends Fragment {
 
     public void setListener(MainFragmentListener mListener) {
         this.mListener = new WeakReference<>(mListener);
+    }
+
+    void prepareForActivityChange() {
+        ModelHolder.getInstance().saveModel(ModelHolder.FRIEND_MODEL, mFriendModel);
     }
 
     @Override

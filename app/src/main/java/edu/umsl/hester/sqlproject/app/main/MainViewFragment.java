@@ -1,4 +1,4 @@
-package edu.umsl.hester.sqlproject.app;
+package edu.umsl.hester.sqlproject.app.main;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import edu.umsl.hester.sqlproject.R;
 
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class MainViewFragment extends Fragment {

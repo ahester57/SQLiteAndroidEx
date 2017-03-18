@@ -7,6 +7,7 @@ import android.view.View;
 
 /**
  * Created by Austin on 3/18/2017.
+ *
  */
 
 public class FriendHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -2,6 +2,7 @@ package edu.umsl.hester.sqlproject.database;
 
 /**
  * Created by Austin on 3/17/2017.
+ *
  */
 
 public class FriendSchema {

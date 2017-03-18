@@ -5,6 +5,6 @@
     android:id="@+id/frag_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.umsl.hester.sqlproject.app.MainActivity">
+    tools:context="edu.umsl.hester.sqlproject.app.main.MainActivity">
 
 </android.support.constraint.ConstraintLayout>
