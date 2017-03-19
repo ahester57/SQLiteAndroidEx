@@ -7,18 +7,22 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.umsl.hester.sqlproject.R;
 import edu.umsl.hester.sqlproject.app.ModelHolder;
+import edu.umsl.hester.sqlproject.data.Friend;
+import edu.umsl.hester.sqlproject.database.FriendSQLHandler;
 
 /**
  * Created by Austin on 3/18/2017.
  *
  */
 
-public class FriendListActivity extends AppCompatActivity
-            implements FriendListViewFragment.FriendListViewDataSource {
+public class FriendListActivity extends AppCompatActivity implements
+            FriendListViewFragment.FriendListViewDataSource,
+            FriendCreateViewFragment.FriendCreateViewListener {
 
     private final String TAG = this.getClass().getSimpleName();
     private FriendListViewFragment mViewFragment;
@@ -56,14 +60,35 @@ public class FriendListActivity extends AppCompatActivity
     }
 
     @Override
+    public int getNumFriends() {
+        return mFriendModel.getFriends().size();
+    }
+
+    @Override
     public void addFriendButton() {
         FragmentManager fm = getSupportFragmentManager();
         FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
+        mCreateView.setListener(this);
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack("FRIEND_LIST");
         ft.replace(R.id.frag_container, mCreateView, "CREATE_VIEW").commit();
-
     }
+
+    @Override
+    public void addFriend(Friend newFriend) {
+        ArrayList<Friend> friends;
+        FriendSQLHandler db = FriendSQLHandler.sharedInstance(getApplicationContext());
+        friends = (ArrayList<Friend>) db.getFriends();
+        friends.add(newFriend);
+        mFriendModel = new FriendModel(friends, getApplicationContext());
+
+        //db.addFriends(friends);
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.frag_container, mViewFragment, "FRIEND_LIST");
+        ft.commit();
+    }
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

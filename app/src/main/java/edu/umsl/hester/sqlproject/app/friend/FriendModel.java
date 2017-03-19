@@ -45,6 +45,12 @@ public class FriendModel {
         mSQLHandler.addFriends(newFriends);
     }
 
+    public FriendModel(ArrayList<Friend> newFriends, Context context) {
+        mSQLHandler = FriendSQLHandler.sharedInstance(context);
+
+        mSQLHandler.addFriends(newFriends);
+    }
+
     public List<String> getFriendNames() {
         if (mFriendNames == null) {
             mFriendNames = mSQLHandler.getFriendNames();
