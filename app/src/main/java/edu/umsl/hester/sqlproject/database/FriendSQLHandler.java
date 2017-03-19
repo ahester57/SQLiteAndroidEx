@@ -53,10 +53,10 @@ public class FriendSQLHandler {
         ArrayList<String> friendNames = new ArrayList<>();
 
         try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
-                new String[]{FriendSchema.Columns.FIRST_NAME},
+                new String[]{FriendSchema.Columns.FIRST_NAME, FriendSchema.Columns.LAST_NAME},
                 null, null, FriendSchema.Columns.FIRST_NAME, null, "firstName asc")) {
             while (cursor.moveToNext()) {
-                friendNames.add(cursor.getString(0));
+                friendNames.add(cursor.getString(0) + " " + cursor.getString(1));
             }
         }
 

@@ -42,7 +42,7 @@ public class MainViewFragment extends Fragment {
             public void onClick(View v) {
                 if (mDelegate != null) {
                     mDelegate.get().fetchFriendData();
-                    mDelegate.get().showFriends();
+                    //mDelegate.get().showFriends();
                 }
             }
         });

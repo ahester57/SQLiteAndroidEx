@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -22,11 +23,13 @@ import edu.umsl.hester.sqlproject.data.FriendHolder;
 
 public class FriendListViewFragment extends Fragment {
 
+    private Button mAddFriendbutton;
     private RecyclerView mRecyclerView;
     private WeakReference<FriendListViewDataSource> mDataSrc;
 
     interface FriendListViewDataSource {
         List<String> getFriendNames();
+        void addFriendButton();
     }
 
     public void setDataSource(FriendListViewDataSource src) {
@@ -40,6 +43,14 @@ public class FriendListViewFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.friend_list_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(new FriendAdapter());
+
+        mAddFriendbutton = (Button) view.findViewById(R.id.add_friend_button);
+        mAddFriendbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataSrc.get().addFriendButton();
+            }
+        });
 
         return view;
     }

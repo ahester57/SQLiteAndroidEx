@@ -3,6 +3,7 @@ package edu.umsl.hester.sqlproject.app.friend;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -43,7 +44,7 @@ public class FriendListActivity extends AppCompatActivity
         if (mViewFragment == null) {
             mViewFragment = new FriendListViewFragment();
             fm.beginTransaction()
-                    .add(R.id.frag_container, mViewFragment)
+                    .add(R.id.frag_container, mViewFragment, "FRIEND_LIST")
                     .commit();
         }
         mViewFragment.setDataSource(this);
@@ -52,6 +53,16 @@ public class FriendListActivity extends AppCompatActivity
     @Override
     public List<String> getFriendNames() {
         return mFriendModel.getFriendNames();
+    }
+
+    @Override
+    public void addFriendButton() {
+        FragmentManager fm = getSupportFragmentManager();
+        FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("FRIEND_LIST");
+        ft.replace(R.id.frag_container, mCreateView, "CREATE_VIEW").commit();
+
     }
 
     @Override
