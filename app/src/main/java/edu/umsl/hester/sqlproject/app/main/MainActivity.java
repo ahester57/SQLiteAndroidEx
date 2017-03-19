@@ -63,6 +63,6 @@ public class MainActivity extends AppCompatActivity implements
         mControllerFragment.prepareForActivityChange();
         Intent intent = new Intent(this, FriendListActivity.class);
         startActivity(intent);
-        //finish
+        finish();
     }
 }

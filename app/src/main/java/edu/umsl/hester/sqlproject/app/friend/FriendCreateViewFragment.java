@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -54,11 +55,32 @@ public class FriendCreateViewFragment extends Fragment {
         public void onClick(View v) {
             String fullName = fName.getText().toString();
             int space = fullName.indexOf(' ');
-            String firstName = fullName.substring(0, space);
-            String lastName = fullName.substring(space+1);
-            String email = fEmail.getText().toString();
 
             int id = mListener.get().getNumFriends() + 1;
+            String firstName;
+            String lastName;
+            String email;
+
+            try {
+                // check for first & last or just first
+                if (space != -1) {
+                    firstName = fullName.substring(0, space);
+                    lastName = fullName.substring(space+1);
+                } else {
+                    firstName = fullName.toString();
+                    lastName = "";
+                }
+                email = fEmail.getText().toString();
+
+                if (fullName.trim().isEmpty() || email.trim().isEmpty()) {
+                    throw new StringIndexOutOfBoundsException();
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                Toast.makeText(getActivity(), "Please fill in the required fields",
+                            Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Friend newFriend = new Friend(id, firstName, lastName, email);
             mListener.get().addFriend(newFriend);
         }

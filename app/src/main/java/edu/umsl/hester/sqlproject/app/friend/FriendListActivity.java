@@ -76,19 +76,22 @@ public class FriendListActivity extends AppCompatActivity implements
 
     @Override
     public void addFriend(Friend newFriend) {
-        ArrayList<Friend> friends;
+        List<Friend> friends;
         FriendSQLHandler db = FriendSQLHandler.sharedInstance(getApplicationContext());
-        friends = (ArrayList<Friend>) db.getFriends();
+        friends = db.getFriends();
         friends.add(newFriend);
-        mFriendModel = new FriendModel(friends, getApplicationContext());
-
+        mFriendModel = new FriendModel(friends, this);
         //db.addFriends(friends);
         FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.frag_container, mViewFragment, "FRIEND_LIST");
-        ft.commit();
+        fm.popBackStack();
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
