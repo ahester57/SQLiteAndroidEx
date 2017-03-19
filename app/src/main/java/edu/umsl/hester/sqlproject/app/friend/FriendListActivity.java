@@ -60,6 +60,11 @@ public class FriendListActivity extends AppCompatActivity implements
     }
 
     @Override
+    public List<String> getFriendEmails() {
+        return mFriendModel.getFriendEmails();
+    }
+
+    @Override
     public int getNumFriends() {
         return mFriendModel.getFriends().size();
     }
@@ -71,6 +76,17 @@ public class FriendListActivity extends AppCompatActivity implements
         mCreateView.setListener(this);
         FragmentTransaction ft = fm.beginTransaction();
         ft.addToBackStack("FRIEND_LIST");
+        ft.replace(R.id.frag_container, mCreateView, "CREATE_VIEW").commit();
+    }
+
+    @Override
+    public void editFriend(String fName, String fEmail) {
+        FragmentManager fm = getSupportFragmentManager();
+        FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
+        mCreateView.setListener(this);
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.addToBackStack("FRIEND_LIST");
+        mCreateView.setFriendInfo(fName, fEmail);
         ft.replace(R.id.frag_container, mCreateView, "CREATE_VIEW").commit();
     }
 

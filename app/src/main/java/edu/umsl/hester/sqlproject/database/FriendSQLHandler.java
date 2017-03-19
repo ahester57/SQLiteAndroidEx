@@ -50,17 +50,29 @@ public class FriendSQLHandler {
     }
 
     public List<String> getFriendNames() {
-        ArrayList<String> friendNames = new ArrayList<>();
+        ArrayList<String> fNames = new ArrayList<>();
 
         try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
                 new String[]{FriendSchema.Columns.FIRST_NAME, FriendSchema.Columns.LAST_NAME},
                 null, null, FriendSchema.Columns.FIRST_NAME, null, "firstName asc")) {
             while (cursor.moveToNext()) {
-                friendNames.add(cursor.getString(0) + " " + cursor.getString(1));
+                fNames.add(cursor.getString(0) + " " + cursor.getString(1));
             }
         }
+        return fNames;
+    }
 
-        return friendNames;
+    public List<String> getFriendEmails() {
+        ArrayList<String> fEmails = new ArrayList<>();
+
+        try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
+                new String[] {FriendSchema.Columns.FIRST_NAME, FriendSchema.Columns.EMAIL}, null, null,
+                FriendSchema.Columns.EMAIL, null, "firstName asc")) {
+            while (cursor.moveToNext()) {
+                fEmails.add(cursor.getString(1));
+            }
+        }
+        return fEmails;
     }
 
     public void addFriends(List<Friend> friends) {

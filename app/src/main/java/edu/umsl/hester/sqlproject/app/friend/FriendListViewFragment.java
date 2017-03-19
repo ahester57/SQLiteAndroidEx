@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,7 +15,6 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import edu.umsl.hester.sqlproject.R;
-import edu.umsl.hester.sqlproject.data.FriendHolder;
 
 /**
  * Created by Austin on 3/18/2017.
@@ -29,7 +29,9 @@ public class FriendListViewFragment extends Fragment {
 
     interface FriendListViewDataSource {
         List<String> getFriendNames();
+        List<String> getFriendEmails();
         void addFriendButton();
+        void editFriend(String name, String email);
     }
 
     public void setDataSource(FriendListViewDataSource src) {
@@ -55,19 +57,30 @@ public class FriendListViewFragment extends Fragment {
         return view;
     }
 
-    private class FriendAdapter extends RecyclerView.Adapter<FriendHolder> {
+
+
+
+    private class FriendAdapter extends RecyclerView.Adapter<FriendHolder> implements
+                        FriendHolder.FriendHolderListener {
 
         @Override
         public FriendHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
             View view = inflater.inflate(R.layout.friend_model_item_layout, parent, false);
-            return new FriendHolder(view);
+            FriendHolder fHolder = new FriendHolder(view, this);
+            return fHolder;
+        }
+
+        @Override
+        public void goToDetails(String fName, String fEmail) {
+            mDataSrc.get().editFriend(fName, fEmail);
         }
 
         @Override
         public void onBindViewHolder(FriendHolder holder, int position) {
             if (mDataSrc != null) {
-                holder.bindFriend(mDataSrc.get().getFriendNames().get(position));
+                holder.bindFriend(mDataSrc.get().getFriendNames().get(position),
+                                    mDataSrc.get().getFriendEmails().get(position));
             }
         }
 

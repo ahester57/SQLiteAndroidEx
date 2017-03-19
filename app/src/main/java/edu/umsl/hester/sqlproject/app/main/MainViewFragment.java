@@ -46,6 +46,7 @@ public class MainViewFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
 }

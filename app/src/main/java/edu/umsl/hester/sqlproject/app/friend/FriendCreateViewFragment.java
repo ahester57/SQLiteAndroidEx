@@ -21,6 +21,8 @@ import edu.umsl.hester.sqlproject.data.Friend;
 
 public class FriendCreateViewFragment extends Fragment {
 
+    private String name = "";
+    private String email = "";
     private TextView fName;
     private TextView fEmail;
     private Button saveFriend;
@@ -36,12 +38,22 @@ public class FriendCreateViewFragment extends Fragment {
         this.mListener = new WeakReference<FriendCreateViewListener>(mListener);
     }
 
+    void setFriendInfo(String friendName, String friendEmail) {
+        name = friendName;
+        email = friendEmail;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.friend_create_fragment, container, false);
         fName = (TextView) view.findViewById(R.id.new_name_text);
         fEmail = (TextView) view.findViewById(R.id.new_email_text);
+
+        if (!(name.isEmpty() || email.isEmpty())) {
+            fName.setText(name);
+            fEmail.setText(email);
+        }
 
         saveFriend = (Button) view.findViewById(R.id.save_button);
         saveFriend.setOnClickListener(saveListen);

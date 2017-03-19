@@ -22,6 +22,7 @@ public class FriendModel {
 
     private List<Friend> mFriends = new ArrayList<>();
     private List<String> mFriendNames;
+    private List<String> mFriendEmails;
     private FriendSQLHandler mSQLHandler;
 
     public FriendModel(Context context) {
@@ -56,6 +57,13 @@ public class FriendModel {
             mFriendNames = mSQLHandler.getFriendNames();
         }
         return mFriendNames;
+    }
+
+    public List<String> getFriendEmails() {
+        if (mFriendEmails == null) {
+            mFriendEmails = mSQLHandler.getFriendEmails();
+        }
+        return mFriendEmails;
     }
 
     public List<Friend> getFriends() {
