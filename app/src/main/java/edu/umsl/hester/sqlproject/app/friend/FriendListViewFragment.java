@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +33,7 @@ public class FriendListViewFragment extends Fragment {
         List<String> getFriendEmails();
         void addFriendButton();
         void editFriend(String name, String email);
+        void removeFriend(String email);
     }
 
     public void setDataSource(FriendListViewDataSource src) {
@@ -79,8 +81,12 @@ public class FriendListViewFragment extends Fragment {
         @Override
         public void onBindViewHolder(FriendHolder holder, int position) {
             if (mDataSrc != null) {
-                holder.bindFriend(mDataSrc.get().getFriendNames().get(position),
-                                    mDataSrc.get().getFriendEmails().get(position));
+                try {
+                    holder.bindFriend(mDataSrc.get().getFriendNames().get(position),
+                            mDataSrc.get().getFriendEmails().get(position));
+                } catch (IndexOutOfBoundsException e) {
+                    Log.e("WHOOPS", "idk");
+                }
             }
         }
 

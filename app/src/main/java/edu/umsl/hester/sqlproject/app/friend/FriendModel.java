@@ -37,6 +37,7 @@ public class FriendModel {
             try {
                 JSONObject friendObj = friendsJson.getJSONObject(i);
                 Friend friend = new Friend(friendObj);
+                mFriends.add(friend);
                 newFriends.add(friend);
 
             } catch (JSONException | FriendException e) {
@@ -48,8 +49,12 @@ public class FriendModel {
 
     public FriendModel(List<Friend> newFriends, Context context) {
         mSQLHandler = FriendSQLHandler.sharedInstance(context);
-
+        mFriends = newFriends;
         mSQLHandler.addFriends(newFriends);
+    }
+
+    public List<Friend> getFriends() {
+        return mFriends;
     }
 
     public List<String> getFriendNames() {
@@ -66,7 +71,17 @@ public class FriendModel {
         return mFriendEmails;
     }
 
-    public List<Friend> getFriends() {
-        return mFriends;
+    public Friend getFriendByEmail(String email) {
+        for (Friend friend : mFriends) {
+            if (friend.getEmail().equals(email)) {
+                return friend;
+            }
+        }
+        return null;
+    }
+
+    public void removeFriendByEmail(String email) {
+        getFriendByEmail(email);
+        mSQLHandler.removeFriendByEmail(email);
     }
 }

@@ -11,9 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.umsl.hester.sqlproject.R;
-import edu.umsl.hester.sqlproject.app.ModelHolder;
+import edu.umsl.hester.sqlproject.app.main.ModelHolder;
 import edu.umsl.hester.sqlproject.data.Friend;
-import edu.umsl.hester.sqlproject.database.FriendSQLHandler;
 
 /**
  * Created by Austin on 3/18/2017.
@@ -92,14 +91,21 @@ public class FriendListActivity extends AppCompatActivity implements
 
     @Override
     public void addFriend(Friend newFriend) {
-        List<Friend> friends;
-        FriendSQLHandler db = FriendSQLHandler.sharedInstance(getApplicationContext());
-        friends = db.getFriends();
+        List<Friend> friends = mFriendModel.getFriends();
         friends.add(newFriend);
         mFriendModel = new FriendModel(friends, this);
-        //db.addFriends(friends);
+        ModelHolder.getInstance().saveModel(ModelHolder.FRIEND_MODEL, mFriendModel);
         FragmentManager fm = getSupportFragmentManager();
         fm.popBackStack();
+    }
+
+    @Override
+    public void removeFriend(String email) {
+        List<Friend> friends = mFriendModel.getFriends();
+        Friend friend = mFriendModel.getFriendByEmail(email);
+        friends.remove(friend);
+        mFriendModel = new FriendModel(friends, this);
+        ModelHolder.getInstance().saveModel(ModelHolder.FRIEND_MODEL, mFriendModel);
     }
 
     @Override

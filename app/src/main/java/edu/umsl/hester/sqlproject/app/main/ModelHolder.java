@@ -1,4 +1,4 @@
-package edu.umsl.hester.sqlproject.app;
+package edu.umsl.hester.sqlproject.app.main;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;

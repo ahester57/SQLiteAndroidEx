@@ -20,7 +20,6 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import edu.umsl.hester.sqlproject.app.ModelHolder;
 import edu.umsl.hester.sqlproject.app.friend.FriendModel;
 
 /**

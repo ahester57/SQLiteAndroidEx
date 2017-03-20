@@ -54,7 +54,7 @@ public class FriendSQLHandler {
 
         try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
                 new String[]{FriendSchema.Columns.FIRST_NAME, FriendSchema.Columns.LAST_NAME},
-                null, null, FriendSchema.Columns.FIRST_NAME, null, "firstName asc")) {
+                null, null, null, null, "firstName asc")) {
             while (cursor.moveToNext()) {
                 fNames.add(cursor.getString(0) + " " + cursor.getString(1));
             }
@@ -67,13 +67,19 @@ public class FriendSQLHandler {
 
         try (Cursor cursor = mDatabase.query(FriendSchema.NAME,
                 new String[] {FriendSchema.Columns.FIRST_NAME, FriendSchema.Columns.EMAIL}, null, null,
-                FriendSchema.Columns.EMAIL, null, "firstName asc")) {
+                null, null, "firstName asc")) {
             while (cursor.moveToNext()) {
                 fEmails.add(cursor.getString(1));
             }
         }
         return fEmails;
     }
+
+    public void removeFriendByEmail(String email) {
+        mDatabase.beginTransaction();
+        mDatabase.delete(FriendSchema.NAME, FriendSchema.Columns.EMAIL + "=" + email, null);
+    }
+
 
     public void addFriends(List<Friend> friends) {
         dropIfExists();
@@ -85,6 +91,7 @@ public class FriendSQLHandler {
         mDatabase.setTransactionSuccessful();
         mDatabase.endTransaction();
     }
+
 
     private static ContentValues getContentValues(Friend friend) {
         ContentValues cV = new ContentValues();

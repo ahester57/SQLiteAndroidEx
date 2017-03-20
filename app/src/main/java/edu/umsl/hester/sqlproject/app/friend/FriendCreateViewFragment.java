@@ -3,6 +3,7 @@ package edu.umsl.hester.sqlproject.app.friend;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,10 +33,11 @@ public class FriendCreateViewFragment extends Fragment {
     interface FriendCreateViewListener {
         void addFriend(Friend friend);
         int getNumFriends();
+        void removeFriend(String email);
     }
 
     void setListener(FriendCreateViewListener mListener) {
-        this.mListener = new WeakReference<FriendCreateViewListener>(mListener);
+        this.mListener = new WeakReference<>(mListener);
     }
 
     void setFriendInfo(String friendName, String friendEmail) {
@@ -61,6 +63,7 @@ public class FriendCreateViewFragment extends Fragment {
 
         return view;
     }
+
 
     private View.OnClickListener saveListen = new View.OnClickListener() {
         @Override
@@ -92,9 +95,12 @@ public class FriendCreateViewFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 return;
             }
-
+            mListener.get().removeFriend(email);
+            Log.d("HEY", "saved");
             Friend newFriend = new Friend(id, firstName, lastName, email);
             mListener.get().addFriend(newFriend);
         }
     };
+
+
 }
