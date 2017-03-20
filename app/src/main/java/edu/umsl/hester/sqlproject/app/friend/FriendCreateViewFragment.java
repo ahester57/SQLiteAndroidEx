@@ -1,8 +1,10 @@
 package edu.umsl.hester.sqlproject.app.friend;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +28,9 @@ public class FriendCreateViewFragment extends Fragment {
     private String email = "";
     private TextView fName;
     private TextView fEmail;
-    private Button saveFriend;
+    private Button saveButton;
+    private Button saveAsButton;
+    private Button discardButton;
 
     private WeakReference<FriendCreateViewListener> mListener;
 
@@ -57,8 +61,14 @@ public class FriendCreateViewFragment extends Fragment {
             fEmail.setText(email);
         }
 
-        saveFriend = (Button) view.findViewById(R.id.save_button);
-        saveFriend.setOnClickListener(saveListen);
+        saveButton = (Button) view.findViewById(R.id.save_button);
+        saveButton.setOnClickListener(saveListen);
+
+        saveAsButton = (Button) view.findViewById(R.id.save_as_button);
+        saveAsButton.setOnClickListener(saveAsListen);
+
+        discardButton = (Button) view.findViewById(R.id.discard_button);
+        discardButton.setOnClickListener(discardListen);
 
 
         return view;
@@ -74,7 +84,7 @@ public class FriendCreateViewFragment extends Fragment {
             int id = mListener.get().getNumFriends() + 1;
             String firstName;
             String lastName;
-            String email;
+            String femail;
 
             try {
                 // check for first & last or just first
@@ -85,20 +95,79 @@ public class FriendCreateViewFragment extends Fragment {
                     firstName = fullName.toString();
                     lastName = "";
                 }
-                email = fEmail.getText().toString();
+                femail = fEmail.getText().toString();
 
-                if (fullName.trim().isEmpty() || email.trim().isEmpty()) {
+                if (fullName.trim().isEmpty() || femail.trim().isEmpty()) {
                     throw new StringIndexOutOfBoundsException();
                 }
             } catch (StringIndexOutOfBoundsException e) {
                 Toast.makeText(getActivity(), "Please fill in the required fields",
-                            Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();
                 return;
             }
             mListener.get().removeFriend(email);
             Log.d("HEY", "saved");
-            Friend newFriend = new Friend(id, firstName, lastName, email);
+            Friend newFriend = new Friend(id, firstName, lastName, femail);
             mListener.get().addFriend(newFriend);
+        }
+    };
+
+    private View.OnClickListener saveAsListen = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            String fullName = fName.getText().toString();
+            int space = fullName.indexOf(' ');
+
+            int id = mListener.get().getNumFriends() + 1;
+            String firstName;
+            String lastName;
+            String femail;
+
+            // i can combine these but making sure works
+            try {
+                // check for first & last or just first
+                if (space != -1) {
+                    firstName = fullName.substring(0, space);
+                    lastName = fullName.substring(space+1);
+                } else {
+                    firstName = fullName.toString();
+                    lastName = "";
+                }
+                femail = fEmail.getText().toString();
+
+                if (fullName.trim().isEmpty() || femail.trim().isEmpty()) {
+                    throw new StringIndexOutOfBoundsException();
+                }
+            } catch (StringIndexOutOfBoundsException e) {
+                Toast.makeText(getActivity(), "Please fill in the required fields",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Log.d("HEY", "saved as");
+            Friend newFriend = new Friend(id, firstName, lastName, femail);
+            mListener.get().addFriend(newFriend);
+        }
+    };
+
+    private View.OnClickListener discardListen = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Delete " + name + "?")
+                    .setMessage("Are you sure you want to delete " + name + "?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mListener.get().removeFriend(email);
+                            Log.d("HEY", "removed");
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+
         }
     };
 

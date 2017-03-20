@@ -32,8 +32,7 @@ public class FriendListViewFragment extends Fragment {
         List<String> getFriendNames();
         List<String> getFriendEmails();
         void addFriendButton();
-        void editFriend(String name, String email);
-        void removeFriend(String email);
+        void editFriendButton(String name, String email);
     }
 
     public void setDataSource(FriendListViewDataSource src) {
@@ -75,7 +74,7 @@ public class FriendListViewFragment extends Fragment {
 
         @Override
         public void goToDetails(String fName, String fEmail) {
-            mDataSrc.get().editFriend(fName, fEmail);
+            mDataSrc.get().editFriendButton(fName, fEmail);
         }
 
         @Override

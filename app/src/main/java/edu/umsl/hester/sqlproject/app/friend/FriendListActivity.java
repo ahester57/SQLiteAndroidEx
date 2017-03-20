@@ -79,7 +79,7 @@ public class FriendListActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void editFriend(String fName, String fEmail) {
+    public void editFriendButton(String fName, String fEmail) {
         FragmentManager fm = getSupportFragmentManager();
         FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
         mCreateView.setListener(this);
@@ -106,6 +106,8 @@ public class FriendListActivity extends AppCompatActivity implements
         friends.remove(friend);
         mFriendModel = new FriendModel(friends, this);
         ModelHolder.getInstance().saveModel(ModelHolder.FRIEND_MODEL, mFriendModel);
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
     }
 
     @Override
