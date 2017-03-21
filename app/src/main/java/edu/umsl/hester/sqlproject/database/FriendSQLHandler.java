@@ -77,7 +77,7 @@ public class FriendSQLHandler {
 
     public void removeFriendByEmail(String email) {
         mDatabase.beginTransaction();
-        mDatabase.delete(FriendSchema.NAME, FriendSchema.Columns.EMAIL + "=" + email, null);
+        mDatabase.delete(FriendSchema.NAME, FriendSchema.Columns.EMAIL + "=" + "\"" + email + "\"", null);
     }
 
 

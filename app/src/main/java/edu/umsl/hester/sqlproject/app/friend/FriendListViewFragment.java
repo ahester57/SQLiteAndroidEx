@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -31,8 +30,7 @@ public class FriendListViewFragment extends Fragment {
     interface FriendListViewDataSource {
         List<String> getFriendNames();
         List<String> getFriendEmails();
-        void addFriendButton();
-        void editFriendButton(String name, String email);
+        void addFriendButton(String name, String email);
     }
 
     public void setDataSource(FriendListViewDataSource src) {
@@ -51,7 +49,7 @@ public class FriendListViewFragment extends Fragment {
         mAddFriendbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDataSrc.get().addFriendButton();
+                mDataSrc.get().addFriendButton(null, null);
             }
         });
 
@@ -74,7 +72,7 @@ public class FriendListViewFragment extends Fragment {
 
         @Override
         public void goToDetails(String fName, String fEmail) {
-            mDataSrc.get().editFriendButton(fName, fEmail);
+            mDataSrc.get().addFriendButton(fName, fEmail);
         }
 
         @Override

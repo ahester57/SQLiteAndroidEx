@@ -68,18 +68,10 @@ public class FriendListActivity extends AppCompatActivity implements
         return mFriendModel.getFriends().size();
     }
 
-    @Override
-    public void addFriendButton() {
-        FragmentManager fm = getSupportFragmentManager();
-        FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
-        mCreateView.setListener(this);
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack("FRIEND_LIST");
-        ft.replace(R.id.frag_container, mCreateView, "CREATE_VIEW").commit();
-    }
+
 
     @Override
-    public void editFriendButton(String fName, String fEmail) {
+    public void addFriendButton(String fName, String fEmail) {
         FragmentManager fm = getSupportFragmentManager();
         FriendCreateViewFragment mCreateView = new FriendCreateViewFragment();
         mCreateView.setListener(this);
@@ -105,6 +97,7 @@ public class FriendListActivity extends AppCompatActivity implements
         Friend friend = mFriendModel.getFriendByEmail(email);
         friends.remove(friend);
         mFriendModel = new FriendModel(friends, this);
+        //mFriendModel.removeFriendByEmail(email);
         ModelHolder.getInstance().saveModel(ModelHolder.FRIEND_MODEL, mFriendModel);
         FragmentManager fm = getSupportFragmentManager();
         fm.popBackStack();

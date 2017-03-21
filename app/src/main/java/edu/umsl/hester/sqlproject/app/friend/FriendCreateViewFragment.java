@@ -20,6 +20,7 @@ import edu.umsl.hester.sqlproject.data.Friend;
 
 /**
  * Created by Austin on 3/18/2017.
+ *
  */
 
 public class FriendCreateViewFragment extends Fragment {
@@ -56,7 +57,7 @@ public class FriendCreateViewFragment extends Fragment {
         fName = (TextView) view.findViewById(R.id.new_name_text);
         fEmail = (TextView) view.findViewById(R.id.new_email_text);
 
-        if (!(name.isEmpty() || email.isEmpty())) {
+        if (!(name == null || email == null)) {
             fName.setText(name);
             fEmail.setText(email);
         }
@@ -65,7 +66,7 @@ public class FriendCreateViewFragment extends Fragment {
         saveButton.setOnClickListener(saveListen);
 
         saveAsButton = (Button) view.findViewById(R.id.save_as_button);
-        saveAsButton.setOnClickListener(saveAsListen);
+        saveAsButton.setOnClickListener(saveListen);
 
         discardButton = (Button) view.findViewById(R.id.discard_button);
         discardButton.setOnClickListener(discardListen);
@@ -105,49 +106,15 @@ public class FriendCreateViewFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
                 return;
             }
-            mListener.get().removeFriend(email);
+            if (v.getId() != R.id.save_as_button) {
+                mListener.get().removeFriend(email);
+            }
             Log.d("HEY", "saved");
             Friend newFriend = new Friend(id, firstName, lastName, femail);
             mListener.get().addFriend(newFriend);
         }
     };
 
-    private View.OnClickListener saveAsListen = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            String fullName = fName.getText().toString();
-            int space = fullName.indexOf(' ');
-
-            int id = mListener.get().getNumFriends() + 1;
-            String firstName;
-            String lastName;
-            String femail;
-
-            // i can combine these but making sure works
-            try {
-                // check for first & last or just first
-                if (space != -1) {
-                    firstName = fullName.substring(0, space);
-                    lastName = fullName.substring(space+1);
-                } else {
-                    firstName = fullName.toString();
-                    lastName = "";
-                }
-                femail = fEmail.getText().toString();
-
-                if (fullName.trim().isEmpty() || femail.trim().isEmpty()) {
-                    throw new StringIndexOutOfBoundsException();
-                }
-            } catch (StringIndexOutOfBoundsException e) {
-                Toast.makeText(getActivity(), "Please fill in the required fields",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Log.d("HEY", "saved as");
-            Friend newFriend = new Friend(id, firstName, lastName, femail);
-            mListener.get().addFriend(newFriend);
-        }
-    };
 
     private View.OnClickListener discardListen = new View.OnClickListener() {
         @Override

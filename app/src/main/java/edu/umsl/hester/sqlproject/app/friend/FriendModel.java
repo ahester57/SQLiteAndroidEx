@@ -81,7 +81,7 @@ public class FriendModel {
     }
 
     public void removeFriendByEmail(String email) {
-        getFriendByEmail(email);
+        mFriends.remove(getFriendByEmail(email));
         mSQLHandler.removeFriendByEmail(email);
     }
 }
